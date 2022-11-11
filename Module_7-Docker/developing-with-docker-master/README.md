@@ -37,7 +37,9 @@ Step 6: Start your nodejs application locally - go to `app` directory of project
     npm install 
     node server.js
 
-	Alternatively you create a docker image with: docker build -t my-app:1.0 but before that, you have to change the code in server.js
+
+
+Alternatively you create a docker image with: docker build -t my-app:1.0 but before that, you have to change the code in server.js
 for mongoUrlDocker to be mongodb://admin:password@mongodbcontainername:27017 in order for the app to connect to mongodb. Also make sure you 
 add include the app in the same network as mongodb. 
 
@@ -76,3 +78,14 @@ Step 5: access the nodejs application from browser
     docker build -t my-app:1.0 .       
     
 The dot "." at the end of the command denotes location of the Dockerfile.
+
+
+Create Nexus repository as a Docker container
+
+Step 1: Pull the image from the Docker Hub with: docker pull sonatype/nexus3 
+
+Step 2: docker run -d -p 8081:8081 --name nexus sonatype/nexus3  -> make sure that the port you are trying to bind from the host is not in use for any service
+
+Step 3: When stopping, make sure you allow suffiecient time for database to fully shut down.
+
+	docker stop --time=120 <CONTAINER_NAME>
