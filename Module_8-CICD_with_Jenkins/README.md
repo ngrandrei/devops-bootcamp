@@ -12,11 +12,11 @@ Security group inbound rules - allow for SSH on port 22 and HTTP on 8080. Defaul
 `ssh -i "~/Downloads/key.pem" ubuntu@publiciphere`
 
 2. Install Docker
-`sudo apt update` 
+`sudo apt update`
 `sudo apt install docker.io`
 
-`sudo groupadd docker` create a group called docker in case it's not created atomatically in installing docker
-`sudo usermod -aG docker ${USER}` add your user (ubuntu in this case) to that group in order to execute docker commands without sudo
+`sudo groupadd docker` create a group called docker in case it's not created atomatically in installing docker.
+`sudo usermod -aG docker ${USER}` add your user (ubuntu in this case) to that group in order to execute docker commands without sudo.
 
     and exit and reconnect to the EC2 through ssh
 
