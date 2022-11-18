@@ -89,3 +89,9 @@ Step 2: docker run -d -p 8081:8081 --name nexus sonatype/nexus3  -> make sure th
 Step 3: When stopping, make sure you allow suffiecient time for database to fully shut down.
 
 	docker stop --time=120 <CONTAINER_NAME>
+
+
+- You don't have to create a non-root user inside the container becasue the nexus image is already configured to create a nexus user. 
+- To persist data you have to create a volume and attach it to the container
+- To find the actual file where the volume is mounted on the host, you have to: docker inspect volume_name
+
