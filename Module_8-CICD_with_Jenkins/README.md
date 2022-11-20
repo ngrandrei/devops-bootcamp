@@ -164,3 +164,6 @@ versions:commit` -> this reads the pom.xml, increment patch version by one and s
 
 2. Commit version bump (newly created pom.xml) created by Jenkins to Git
 
+- First you need an SSH Agent plugin 
+- Create Credentials in Jenkins UI and add the private key generated on the Jenkins Server
+- 
