@@ -166,4 +166,5 @@ versions:commit` -> this reads the pom.xml, increment patch version by one and s
 
 - First you need an SSH Agent plugin 
 - Create Credentials in Jenkins UI and add the private key generated on the Jenkins Server
-- 
+- Use the id of the credentials in the sshagent step in Jenkinsfile
+- Enter the jenkins container as jenkinser user and execute the following: `git ls-remote -h git@github.com:ngrandrei/devops-bootcamp.git HEAD` -> The host key for github will now be added to the ~/.ssh/known_hosts file
