@@ -62,7 +62,7 @@ pipeline {
                     sh "git remote set-url origin https://github.com/ngrandrei/devops-bootcamp.git"
                     sh "git add ."
                     sh 'git commit -m "version bump"'
-                    sh "git push"
+                    sh "git push origin HEAD:main"
                 }
             }
         }
