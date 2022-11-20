@@ -2,35 +2,40 @@ def gv
 
 pipeline {
     agent any
+
+    tools {
+        maven 'Maven' //the value must be the same as in the Web UI
+    }
+
     stages {
         stage("init") {
             steps {
                 script {
-                    gv = load "script.groovy"
+                    gv = load "./Module_8-CICD_with_Jenkins/java-maven-app-master/script.groovy"
                 }
             }
         }
-        stage("build jar") {
+        stage("build java jar") {
             steps {
                 script {
                     echo "building jar"
-                    //gv.buildJar()
+                    gv.buildJar()
                 }
             }
         }
-        stage("build image") {
+        stage("build docker image") {
             steps {
                 script {
                     echo "building image"
-                    //gv.buildImage()
+                    gv.buildImage()
                 }
             }
         }
-        stage("deploy") {
+        stage("deploy the image") {
             steps {
                 script {
                     echo "deploying"
-                    //gv.deployApp()
+                    gv.deployApp()
                 }
             }
         }

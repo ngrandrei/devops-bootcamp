@@ -41,7 +41,7 @@ You can now connect to Jenkins UI using the public ip of the instance and the po
 
 ## Project 2
 
-**CI Pipeline to build and push to a private repo a java maven app**
+**CI Pipeline (Freestyle job) to build and push to a private repo a java maven app**
 
 1. Install Maven either in the Jenkins UI or directly in the container
 
@@ -59,22 +59,68 @@ The jar file is stored under `/var/jenkins_home/workspace/my-freestyle-job/Modul
 3. Make Docker available in Jenkins 
 
 This is done by mounting docker runtime from host to the jenkins container.\
-`docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker jenkins/jenkins:lts`\  --> does not work as expected, I had to install docker manually inside container.\
+`docker run -d -p 8080:8080 -p 50000:50000 -v jenkins_home:/var/jenkins_home -v /var/run/docker.sock:/var/run/docker.sock -v $(which docker):/usr/bin/docker jenkins/jenkins:lts`  --> does not work as expected, I had to install docker manually inside container.\
 
 Use this command instead: `docker run -p 8080:8080 -p 50000:50000 -d -v /var/run/docker.sock:/var/run/docker.sock -v jenkins_home:/var/jenkins_home jenkins/jenkins:lts`\
 Enter inside container as root and run `curl https://get.docker.com/ > dockerinstall && chmod 777 dockerinstall && ./dockerinstall`\
 then exit the jenkins container and change docker.sock privilege to read and write for all users with :
-`sudo chmod 666 /var/run/docker.sock`. Now you have docker inside Jenkins.\
+`sudo chmod 666 /var/run/docker.sock`. Now you have docker inside Jenkins.
 
 4. Build the docker image and publish it to DockerHub
 
 First create a repo for your Image on Docker Hub, then you have to add credentials to Jenkins in order to access your DockerHub.\
 Go to Dashboard -> Manage Jenkins -> Manage Credentials -> Jenkins -> Global credentials -> Add Credentials (left sidebar)\
-Create credentials to access your Docker Hub account.\
+Create credentials to access your Docker Hub account.
 
-Create the Dockerfile in `java-maven-app-master` directory.\
+Create the Dockerfile in `java-maven-app-master` directory.
 
+Bind the DockerHub credentials created in Jenkins as a secure text and set `USERNAME` and `PASSWORD` as environment variables.
 
+After the `mvn test && mvn package` add the following: 
+```
+cd ./Module_8-CICD_with_Jenkins/java-maven-app-master
+docker build -t negru1andrei/java-maven-app:1.0.0 .
+echo $PASSWORD | docker login -u $USERNAME --password-stdin
+docker push negru1andrei/java-maven-app:1.0.0
+```
 
+---
 
+## Project 3 
 
+**Complete CI/CD Pipeline with Jenkins and using Groovy scripts**
+
+- Jenkinsfile can be scripted or declarative:
+
+    Scripted:\
+        first syntax\
+        Groovy engine\
+        advanced scripting capabilities, high flexibility\
+        difficult to start\
+    Declarative\
+        more recent addition\
+        easier to get started, but not that powerful\
+        pre-defined structure\
+
+- The list of available environment variables can be seen at http://${JENKINS_URL}/env-vars.html
+
+```
+pipeline {
+    agent any
+    environment {
+        // variables declared here will be available to all stages
+        NEW_VERSION = '1.3.0'
+    }
+    // ...
+}
+```
+
+- Using credentials in Jenkins - you need 2 plugins: Credentials Plugin and Credentials Binding Plugin\
+- credentials("credentialId") binds the credentals to your env variable 
+- another option is getting via usernamePassword()
+
+1. Create a pipeline in Jenkins UI and specify the git repo and the Jenkinsfile path `./Module_8-CICD_with_Jenkins/java-maven-app-master/Jenkinsfile`
+
+2. Create the pipeline stages in the Jenkinsfile
+
+You can have the logic in the stages or extract logic in a Groovy script if you need to reuse code.\
