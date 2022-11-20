@@ -57,12 +57,13 @@ pipeline {
         stage("commit version bump") {
             steps {
                 script {
-                    withCredentials([usernamePassword(credentialsId: 'github-credentials', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                        sh 'git config user.email "negru.a13@gmail.com"'
-                        sh 'git config user.name "ngrandrei"'
-                        sh "git remote set-url origin https://${USER}:${PASS}@github.com/ngrandrei/devops-bootcamp.git"
+                    withCredentials([sshUserPrivateKey(credentialsId: "855abb51-d17f-421d-8723-6dd79a22f1fa", keyFileVariable: 'key')]) {
+                        sh 'git config user.email "jenkins@test.com"'
+                        sh 'git config user.name "jenkinsuser"'
+                        sh "git remote set-url origin git@github.com:ngrandrei/devops-bootcamp.git"
                         sh "git add ."
                         sh 'git commit -m "version bump"'
+                        sh 'GIT_SSH_COMMAND = "ssh -i $key"'
                         sh "git push origin HEAD:main"
                     }
                 }
