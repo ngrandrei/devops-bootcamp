@@ -15,6 +15,16 @@ pipeline {
                 }
             }
         }
+        stage("increment version") {
+            dir("./Module_8-CICD_with_Jenkins/java-maven-app-master/") { 
+                sh 'mvn build-helper:parse-version versions:set \
+                        -DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+                        versions:commit'
+                def matcher = readFile('pom.xml') =~ '<version>(.+)</version>' //regex to match every line containing every version
+                def version = matcher[0][1] //first line containing version > child (actual string with the version number)
+                env.IMAGE_NAME = "$version-$BUILD_NUMBER"
+            }
+        }
         stage("build java jar") {
             steps {
                 script {
@@ -36,6 +46,19 @@ pipeline {
                 script {
                     echo "deploying"
                     gv.deployApp()
+                }
+            }
+        }
+
+        stage("commit version bump") {
+            steps {
+                script {
+                    sh 'git config user.email "jenkins@test.com"'
+                    sh 'git config user.name "jenkinsuser"'
+                    sh "git remote set-url origin https://github.com/ngrandrei/devops-bootcamp.git"
+                    sh "git add ."
+                    sh 'git commit -m "version bump"'
+                    sh "git push"
                 }
             }
         }

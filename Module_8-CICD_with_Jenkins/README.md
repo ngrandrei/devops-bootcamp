@@ -119,8 +119,48 @@ pipeline {
 - credentials("credentialId") binds the credentals to your env variable 
 - another option is getting via usernamePassword()
 
+-   Credentials Scopes
+        System - only available on Jenkins Server (NOT for Jenkins jobs)
+        Global - Everywhere accross Jenkins
+        Project - limited to project, only available/accessible in the multibranch pipeline view
+    Credentials Types
+        Username & Password
+        Certificate
+        Secret File
+        etc.
+        (new types based on plugins)
+    ID - that’s how you reference your credentials in scripts
+
+
 1. Create a pipeline in Jenkins UI and specify the git repo and the Jenkinsfile path `./Module_8-CICD_with_Jenkins/java-maven-app-master/Jenkinsfile`
 
 2. Create the pipeline stages in the Jenkinsfile
 
 You can have the logic in the stages or extract logic in a Groovy script if you need to reuse code.\
+
+3. Create a jenkins shared library repo
+- used to share pipeline logic between multiple projects.
+- extension to the pipeline
+- has own repository
+- written in Groovy
+- reference shared logic in Jenkinsfile
+
+`/vars` - contains all the functions that we will call from Jenkinsfile
+`/src` - helper, utility for functions
+
+---
+
+## Project 4
+
+**Dynamically increment application version in Jenkins pipeline**
+
+1. Add stage to increment version app from pom.xml at the beginning of the pipeline
+ 
+`mvn build-helper:parse-version versions:set \
+-DnewVersion=\\\${parsedVersion.majorVersion}.\\\${parsedVersion.minorVersion}.\\\${parsedVersion.nextIncrementalVersion} \
+versions:commit` -> this reads the pom.xml, increment patch version by one and save the newly created pom.xml
+
+- `mvn clean package` -> first it deletes the /target directory where the artifacts are stored and then build the app and save the artifact in a clean /target
+
+2. Commit version bump (newly created pom.xml) created by Jenkins to Git
+
