@@ -144,6 +144,8 @@ It needs ME_CONFIG_MONGODB_ADMINUSERNAME and ME_CONFIG_MONGODB_ADMINPASSWORD set
 
 This have to be created as a loadbalancer (external service) in order to access it from the browser.
 
+Use `minikube service mongo-express-service` to assign an external IP to the Mongo Express service in order to access it via browser.
+
 
 
 
