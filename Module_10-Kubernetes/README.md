@@ -126,7 +126,7 @@ kubectl top The kubectl top command returns current CPU and memory usage for a c
 
 1. Create mongodb deployment yaml file
 
-MongoDB needs two env variables: MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD. Values for those have to be stored in a Secret config file in a base64 encoded format. To encode this, you can use `echo -n "andreinegru" | base64` to get the econded values. 
+MongoDB needs two env variables: MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD. Values for those have to be stored in a Secret config file in a base64 encoded format. To encode this, you can use `echo -n "andreinegru" | base64` to get the econded values. (-n option is used to omit echoing trailing newline)
 
 Becasue you reference values from Secret, you have to creat the Secret prior to the deployment. 
 
