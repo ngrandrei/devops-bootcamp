@@ -126,7 +126,7 @@ kubectl top The kubectl top command returns current CPU and memory usage for a c
 
 1. Create mongodb deployment yaml file
 
-MongoDB needs two env variables: MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD. Values for those have to be stored in a Secret config file in a base64 encoded format. To encode this, you can use `echo "andreinegru" | base64` to get the econded values. 
+MongoDB needs two env variables: MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD. Values for those have to be stored in a Secret config file in a base64 encoded format. To encode this, you can use `echo -n "andreinegru" | base64` to get the econded values. 
 
 Becasue you reference values from Secret, you have to creat the Secret prior to the deployment. 
 
@@ -139,6 +139,10 @@ Service and Deployment usually lives in the same yaml file.
 3. Create mongo espress deployment 
 
 It needs ME_CONFIG_MONGODB_ADMINUSERNAME and ME_CONFIG_MONGODB_ADMINPASSWORD set as env variables in order to connect to mongo db and ME_CONFIG_MONGODB_SERVER which is the MongoDB container name, but since we use pods and services, it will be the name of the mongodb service. We can store this in a ConfigMap since is not sensitive data.
+
+4. Create mongo express service 
+
+This have to be created as a loadbalancer (external service) in order to access it from the browser.
 
 
 
