@@ -136,5 +136,11 @@ Becasue you reference values from Secret, you have to creat the Secret prior to 
 
 Service and Deployment usually lives in the same yaml file.
 
-3. 
+3. Create mongo espress deployment 
+
+It needs ME_CONFIG_MONGODB_ADMINUSERNAME and ME_CONFIG_MONGODB_ADMINPASSWORD set as env variables in order to connect to mongo db and ME_CONFIG_MONGODB_SERVER which is the MongoDB container name, but since we use pods and services, it will be the name of the mongodb service. We can store this in a ConfigMap since is not sensitive data.
+
+
+
+
 
