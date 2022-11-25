@@ -24,6 +24,7 @@
 **ConfigMap**
 
 - stores non-confidential data in key-value pairs
+- it is a local volume type which can store individual key-value pairs which are passed as env variables to the app/pods or you can store a file which can be mounted inside the container (use case: config file used by the app)
 
 **Secrets**
 
@@ -119,6 +120,16 @@ delete with config
 kubectl delete -f nginx-deployment.yaml
 #Metrics
 kubectl top The kubectl top command returns current CPU and memory usage for a cluster’s pods or nodes, or for a particular pod or node if specified.
+
+## Persisting data in Kubernetes using volumes
+
+- Persistent volume - provisioned by admin or dynamically using Storage class\
+                    - not namespaced\
+                    - local volume types violate the 2 principals of data persistency: - being tied to 1 specific node and not surviving in case of cluster crash
+- Persistent volume claim - a request for storage by a user
+- Storage class - provisions PV dynamically only when PVC claims it (kinda on demand storage)\
+                - pod claims storage via PVC which requests storge from Storage class which creates a PV that meets the needs of the claim
+
 
 ## Project 1
 
