@@ -157,7 +157,27 @@ This have to be created as a loadbalancer (external service) in order to access 
 
 Use `minikube service mongo-express-service` to assign an external IP to the Mongo Express service in order to access it via browser.
 
+---
 
+## Project 2
 
+***Deploy Mosquitto message broker using ConfigMap and Secret Volume types**
+
+1. Create Mosquitto ConfigMap with the `mosquitto.conf` file and the content of the file beginning with |
+
+2. Create Mosquitto Secret with the `secret.file` file and the content of the file beginning with | (content must be base64 encoded)
+
+3. Create Mosquitto deployment
+
+Use `eclipse-mosquitto:1.6.2` image to build the container and specify wich volumes can be mounted inside the containers.\
+Inside the container mount the volumes under the `volumeMounts:`.
+
+4. Enter the mosquitto contianer and validate the files are there
+
+Use `kubectl exec -it mosquitto-5887d7ffcb-s6nct -- /bin/sh` to get inside the container in the pod.
+
+---
+
+## Project 3
 
 
