@@ -1,0 +1,6 @@
+architecture: replicaset
+replicaCount: 3
+persistence:
+    storageClass: "linode-block-storage" # storage class used to connect to Linode which create pyshical storage and attach to pods
+auth:
+    rootPassword: secret-root-pwd # this value will be base64 encoded and stored in secret file

@@ -37,11 +37,20 @@
 **Deployment**
 
 - abstraction over pods
+- it does not depened on previous data (also called stateless)
 
 **StatefulSet**
 
 - blueprint for stateful app (ex. database)
 - it makes sure that data reads and writes are synchronized to avoid data inconsistencies
+- it maintains a sticky identity for each of their pods
+- pods are not interchangeable
+- pods can't be created/deleted at the same time
+- name of the pod in composed of $(statefulset name)-$(oridnal)
+
+Scaling DB apps:
+- only 1 replica can make changes
+- each replica has it's own storage and those are constantly synchronized
 
 ---
 
@@ -179,5 +188,67 @@ Use `kubectl exec -it mosquitto-5887d7ffcb-s6nct -- /bin/sh` to get inside the c
 ---
 
 ## Project 3
+
+**Deploy a Stateful app (MongoDB) using Helm**
+
+When you want to create a K8s cluster in Cloud is better to choose a managed one, becasue you care only about the worker nodes, use cloud native load balancer for ingress controller and use the cloud storage. Examples of Cloud providers: AWS, Azure, Google, Linode.
+
+Helm is a package manager for K8s. It packages  YAML files and distributes them in public and private repositories.\
+Helm Charts contains:
+- description of Helm package in Chart.yaml
+- 1 or more templates that contains yaml manifests for k8s\
+
+Use existing oficial charts ex: MySQL or Elasticsearch
+
+Helm Chart structure:
+- top level mychart folder = name of the chart\
+    - Chart.yaml = metadata about chart
+    - values.yaml = values for the template files
+    - charts folders = chart dependencies
+    - templates folder = acutal template files
+
+Use case - Deploy the same bundle of K8s YAML files across multiple clusters (Dev, Stage, Prod). 
+
+1. Created K8s cluster on Linode Kubernetes Engine
+
+To work with the cluster and execute kubectl commands egainst it you have to set env variable KUBECONFIG=kubeconfig.yaml
+
+2. Deploy replicated MongoDB (StatefulSet using Helm Chart) and configured Data Persistence with Linode Block Storage
+
+`helm repo add bitnami https://charts.bitnami.com/bitnami` - add the repo\
+`helm search repo bitnami` - see all charts in this repo\
+Charts provide default values which you can override.\
+
+`helm install mongodbmyname --values mongo-override-chart.yaml bitnami/mongodb` - mongodbmyname is the stateful set name\
+`kubectl get all` - get every resource pods, services, deployments, etc\
+
+3. Deploy MongoExpress (Deployment and Service)
+
+We can create our own config file, no need for a Chart.
+
+`kubectl apply -f mongo-express-helm-project.yaml` - create mongo-express deployment
+
+4. Deploy NGINX Ingress Controller as Loadbalancer (using Helm Chart)
+
+`helm repo add nginx-stable https://helm.nginx.com/stable` - add repo\
+`helm install my-release nginx-stable/nginx-ingress` - install the chart\
+Ingress controller will be added to our cluster and also the LoadBalancer will be created in the Linode Cloud.\
+LoadBalancer forward to Ingress controller which will than forward based on the ingress rules configured.
+
+Ingress controller service will have external IP of the Linode LoadBalancer.
+
+5. Configure Ingress rules
+
+`kubectl apply -f mongo-express-linode-ingress.yaml` - apply ingress rules
+
+`kubectl scale --replicas=0 statefulset/mongodbmyname` - delete all the mongodb pods => volumes in Linode will be unattached
+
+`kubectl scale --replicas=3 statefulset/mongodbmyname` - observe the data persistance 
+
+---
+
+## Project 4
+
+**Deploy web app in a k8s cluster from a private Docker registry**
 
 
