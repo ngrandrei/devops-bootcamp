@@ -270,4 +270,31 @@ To use kubectl outside of Minikube, you need first to copy the .docker/json from
 
 `kubectl apply -f docker-demo-app-deployment.yaml` 
 
+---
+
+## Project 5
+
+**Setup Prometheus monitoring in K8s cluster**
+
+Stateful applications need constant management and syncing after deployment. So stateful applications, like database need to be operated. Instead of a human operator, you have an automated scripted operator. Operators are createdby official maintainers.
+
+How it works:
+- control loop mechanism
+- make use of CRDs (Custom Resource Definitions - custom k8s component which extends the k8s api)
+
+1. Install Prometheus operator using Helm 
+
+`helm repo add prometheus-community https://prometheus-community.github.io/helm-charts`\
+`helm repo update`\
+`helm install [RELEASE_NAME] prometheus-community/kube-prometheus-stack`
+
+To access Grafana: `kubectl port-forward deployment/prometheus-grafana 3000` => can be accessed then on localhost:3000
+
+---
+
+## Project 6
+
+
+
+
 
