@@ -251,4 +251,23 @@ Ingress controller service will have external IP of the Linode LoadBalancer.
 
 **Deploy web app in a k8s cluster from a private Docker registry**
 
+When pulling from private registry you need to offer k8s explicit access.
+
+1. SSH into minikube VM and login to the DockerHub private repo from there
+
+`ssh minikube`\ 
+`docker login --username usernamedockerhub --password passworddockerhub` - login to DockerHub repo -> .docker/config.json is created
+
+2. Create Secret component in k8s
+
+`docker-secret-private-repo.yaml` - Secret k8s component - key .dockerconfigjson will contain base64 encoded value of the .docker/config.json file\
+To use kubectl outside of Minikube, you need first to copy the .docker/json from minikube into local machine using `scp -i $(minikube ssh-key) docker@$(minikube ip):.docker/config.json .docker/config.json`.\
+
+`cat .docker/config.json | base64` - encode the .docker/config.json, copy the value and put into secret yaml file\
+`kubectl create secret generic my-registry-key --from-file=.dockerconfigjson=.docker/config.json --type=kubernetes.io/dockerconfigjson` - creates the secret
+
+3. Create the deployment for the app
+
+`kubectl apply -f docker-demo-app-deployment.yaml` 
+
 

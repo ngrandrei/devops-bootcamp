@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: my-app
+  labels:
+    app: my-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: my-app
+  template:
+    metadata:
+      labels:
+        app: my-app
+    spec:
+      imagePullSecrets:
+      - name: my-registry-key
+      containers:
+      - name: my-app
+        image: negru1andrei/java-maven-app:1.1.3-25
+        imagePullPolicy: Always  # force docker to pull from remote repo instead of the local docker repo (cache) 
+        ports:
+          - containerPort: 8080
