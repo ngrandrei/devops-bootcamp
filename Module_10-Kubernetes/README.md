@@ -368,7 +368,42 @@ Deploy using best practices:
 
 **Create Helm chart for Microservices**
 
+Helm Chart - reusable k8s configuration
 
+I'll create 1 shared Helm chart for all the services because they are more or less the same. 
+
+1. Create microservice and redis Helm Chart and values for them
+
+`helm create microservice` - create microservice Helm Chart
+`helm create redis` - create redis Helm Chart 
+
+Put both into charts/ forlder. 
+
+`values.yaml` - default values for the chart
+
+I'll have values/ folder wich will contain all the values yaml file for each microservice.
+
+`helm template -f email-service-values.yaml emailservice` - just gives a preview of the template filled in with the values\
+`helm lint -f email-service-values.yaml microservice` - examines a chart for possible issues\
+
+2. Deploy a microservice
+
+`helm install -f email-service-values.yaml emailservice microservice`\
+                                          (release name) (chart name)\
+
+3. Make script to deploy all the microservices using `helm install` for each microservice                                        
+
+
+## Project 8 
+
+**Deploy microservices with Helmfile**
+
+The better option to deploy when working with multiple charts is using a Helmfile, which is a declarative way to configure your k8s cluster.
+
+
+`brew install helmfile`\
+`helmfile synch` - deploy the apps in the helmfile\
+`helmfile destroy` - remove all the helm installations and remove pods/resources\
 
 
 
