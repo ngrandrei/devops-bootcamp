@@ -337,6 +337,39 @@ Info you need to know when deploying microservices into a k8s cluster:
 
 Note: When deploying multiple similar services to K8s, you can use helm chart with 1 common template and replace specific values for each service on the fly during deployment. 
 
+1. Clone the Online shop app - https://github.com/nanuchi/microservices-demo
+
+2. Create `config-all-microservices.yaml` containing Deployment and Service for all microservices
+
+3. Create a namespace and deploy all microservices there
+
+4. Access the online shop using the publicIP of any Worker node and the NodePort defined.
+
+
+Deploy using best practices: 
+
+1. Create `config-all-microservices.yaml`
+
+- Specify a pinned version on each container image - Otherwise, latest version is fetched, which makes it unpredictable and intransparent as to which versions are deployed in the cluster
+- Configure a liveness probe on each container - K8s knows the Pod state, not the application state. Sometimes pod is running, but container inside crashed. With liveness probe we can let K8s know when it needs to restart the container
+- Configure a readiness probe on each container - Let's K8s know if application is ready to receive traffic
+- Configure resource limits & requests for each container - To make sure 1 buggy container doesn't eat up all resources, breaking the cluster
+- Don't use NodePort in production - security issue since it one port on all the Worker nodes; Ingress or LoadBalancer are the alternetives
+- Always deploy more than 1 replica for for each application - To make sure your application is always available, no downtime for users!
+- Always have more than 1 Worker Node - avoid single point of failure
+- Label all your K8s resources - Have an identifier for your components to group pods and reference in Service
+- Use namespaces to group your resources
+- Ensure Images are free of vulnerabilities
+- No root access for containers - With root access they have access to host-level resources. Much more damage possible, if container gets hacked
+
+---
+
+## Project 7 
+
+**Create Helm chart for Microservices**
+
+
+
 
 
 
