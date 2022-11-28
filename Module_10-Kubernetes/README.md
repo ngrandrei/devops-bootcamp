@@ -54,6 +54,27 @@ Scaling DB apps:
 
 ---
 
+## Authentication and Authorization in k8s
+
+- K8s doesn't manage Users natively.
+- Admins can choose from different authenticationstrategies.
+- K8s supports multiple authorization modules, suchas ABAC mode, RBAC Mode and Webhook mode
+
+API server handles authentication of all the requests. 
+
+Available authentication strategies: Client certificates, Static token file, 3rd party identity service, like LDAP.
+
+Security best practice - Least Privileage access. Admins needs cluster wide permissions while developers only limited permissions for example to deploy app to 1 namespace.
+
+RBAC = Role-based access control - A method of regulating access to resources based on the roles of users within the organization.\
+Enable RBAC: kube-apiserver --authorization-mode=RBAC --other-options\
+4 kinds of K8s resources: - ClusterRole, Role - rules that represent a set of permissions\
+                          - ClusterRoleBinding, RoleBinding - link/bind a Role or ClusterRole to a User or Group
+
+ServiceAccounts provide an identity for processesthat run in a Pod, for example Jenkins or Prometheus. A RoleBinding or ClusterRoleBinding can link a role to a Service Account.
+ 
+---
+
 ## Kubernetes architecture
 
 Nodes - multiple VMs or physical servers
@@ -294,6 +315,27 @@ To access Grafana: `kubectl port-forward deployment/prometheus-grafana 3000` => 
 
 ## Project 6
 
+**Deploy microservices app (Online shop) with Production & security best practices**
+
+Microservices - small independent services
+
+Communication between microservices can happen in different ways: - Service to Service API calls\
+                                                                  - message-based (through a message broker)\
+                                                                  - Service mesh architecture (Platform layer on top of theinfrastructure layer,like Istio,Linkerd,\ HashiCorp Consul)
+
+Info you need to know when deploying microservices into a k8s cluster: 
+- Which services you need to deploy?
+- Which service is talking to which service?
+- How are they communicating?
+- Which database are they using?
+- 3rdparty services
+- On which port does each service run?
+
+1. Deploy any 3rd party apps
+2. Create Secret and ConfigMap components
+3. Create deployment and Service for each microservice
+
+Note: When deploying multiple similar services to K8s, you can use helm chart with 1 common template and replace specific values for each service on the fly during deployment. 
 
 
 
