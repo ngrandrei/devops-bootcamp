@@ -63,3 +63,32 @@ Requets will come on port 80 on AWS LoadBalancer, then will be forwarded to port
 
 **Create EKS Cluster with Fargate profile**
 
+- Serverless - AWS will create VMs on AWS account./
+- 1 pod per VM\
+- no support for Statefull apps or DaemonSets\
+
+You can have both Fargate and Node groups as Worker nodes.
+
+1. Create Role for Fargate ( EKS - Fargate Pod )
+
+It's used to schedule pods on new VM.
+
+2. Create Fargate profile
+
+Pod selection rule - tell Fargate that a pod should be scheduled through Fargate.\
+We need to provide our VPC becasue the Pods will have an IP address from our subnet IP range. (only private subnets)
+
+In AWS specify namespace and match labels, ex `profile: fargate` and create `nginx-config-fargate.yaml`. 
+
+--- 
+
+## Project 3
+
+**Create EKS Cluster with eksctl tool**
+
+Simpler method than using the Console UI.
+
+
+
+
+
