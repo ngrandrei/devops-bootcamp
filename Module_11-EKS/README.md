@@ -88,7 +88,45 @@ In AWS specify namespace and match labels, ex `profile: fargate` and create `ngi
 
 Simpler method than using the Console UI.
 
+Cluster will be created with default params.\
 
+1. Install the Homebrew tap
 
+`brew tap weaveworks/tap`
+
+2. Install eksctl
+
+`brew install weaveworks/tap/eksctl`
+
+3. Create cluster 
+
+`eksctl create cluster --name negru-cluster --version 1.22 --region eu-east-1 --nodegroup-name negru-nodes --node-type t2.micro --nodes 2 --nodes-min 1 --nodes-max 3`
+
+---
+
+## Project 4
+
+**Complete CI/CD Pipeline with EKS and private DockerHub registry**
+
+1. Install kubectl and aws-iam-authenticator in the Jenkins container
+
+2. Create deployment and service yaml for the Java app in Module_8-CICD_with_Jenkins
+
+3. Create authentication of the k8s cluster with the private docker repo
+
+`kubectl create secret docker-registry my-registry-key --docker-server=docker.io --docker-username=negru1andrei --docker-password=password`
+
+4. Deploy configuration files with kubectl 
+
+Before passing the yaml file to kubectl, you need to substitute all the env variables in the yaml files - can be done using `envsubst`. Install envsubst in Jenkins container.
+
+`envsubst < kubernetes/deployment.yaml | kubectl apply -f -` - substitute all the env variables values in the yaml file and give that file to kubectl\
+`envsubst < kubernetes/service.yaml | kubectl apply -f -`
+
+--- 
+
+## Project 5
+
+**Complete CI/CD Pipeline with EKS and AWS ECR**
 
 
