@@ -129,4 +129,18 @@ Before passing the yaml file to kubectl, you need to substitute all the env vari
 
 **Complete CI/CD Pipeline with EKS and AWS ECR**
 
+1. Create ECR repo
 
+Each repo is 1 app which can contains multiple tags
+
+2. Authenticate to the ECR registry
+
+`aws ecr get-login-password | docker login --username AWS --pasword-stdin registry-URL`
+
+3. Create credentials in Jenkins for AWS name ecr-credentials
+
+4. Create Secret for AWS ECR
+
+`kubectl create secret docker-registry my-registry-key-ecr --docker-server=registry-URL --docker-username=AWS --docker-password=password`
+
+5. Use the Jenkinsfile-ECR 
