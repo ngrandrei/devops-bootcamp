@@ -62,3 +62,27 @@ An example could be a module for EC2 instance with configured networking and per
 **Automate AWS Infrastructure**
 
 1. Create VPC and Subnet 
+
+2. Created custom Route Table
+
+3. Added Subnet Association with Route Table
+
+4. Created Security Group
+
+5. Created EC2 Instance (Fetch AMI, Create ssh key-pair and download .pem file and restrict permission)
+
+6. Configured ssh key pair in Terraform config file
+
+7. Created EC2 Instance
+
+8. Configured Terraform to install Docker and run nginx image
+
+Best practices:
+- Create own VPC and leave the defaults created by AWS as is
+- Security:  Store your .pem file ssh private key in .ssh folder. Restrict permission (only read for our User) on .pem file
+- Security: Don’t hardcode public_key in Terraform config file!
+
+
+---
+
+
