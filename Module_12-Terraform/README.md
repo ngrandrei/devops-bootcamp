@@ -61,3 +61,4 @@ An example could be a module for EC2 instance with configured networking and per
 
 **Automate AWS Infrastructure**
 
+1. Create VPC and Subnet 
