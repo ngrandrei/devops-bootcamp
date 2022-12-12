@@ -61,9 +61,6 @@ An example could be a module for EC2 instance with configured networking and per
 
 **Automate AWS Infrastructure**
 
-<<<<<<< Updated upstream
-1. Create VPC and Subnet 
-=======
 1. Create VPC and Subnet 
 
 2. Created custom Route Table
@@ -103,4 +100,3 @@ Best practices:
 --- 
 
 ## Project 3
->>>>>>> Stashed changes
