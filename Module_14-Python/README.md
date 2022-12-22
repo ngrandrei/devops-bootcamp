@@ -26,5 +26,15 @@ Script name: `ec2-status-check.py`
 
 ## Project 2
 
+**Python script that adds environment tags to all EC2 instances**
+
+1. Iterrate over all instances in all reservations and collect the ids in a list for each reagion. 
+
+2. You can use only one call to AWS to update all the instances tag by providing the list with ids to the `Resources` key parameter.
+
+--- 
+
+## Project 3
+
 ****
 
