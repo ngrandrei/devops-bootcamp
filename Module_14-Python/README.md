@@ -32,9 +32,55 @@ Script name: `ec2-status-check.py`
 
 2. You can use only one call to AWS to update all the instances tag by providing the list with ids to the `Resources` key parameter.
 
+Script name: `add-env-tags.py`
+
 --- 
 
 ## Project 3
 
-****
+**Python script that displays info about EKS clusters**
+
+1. Use Terraform to deploy EKS clusters 
+
+2. Fetch Status, Endpoint and Versions of the K8s
+
+Script name: `eks-info.py`
+
+---
+
+## Project 4
+
+**Data backup & restore**
+
+1. Create Python script that automates creating backup for EC2 Volumes 
+
+Script name: `volume-backup.py`
+
+2. Create Python script that cleans up old snapshots
+
+Script name: `cleanup-snapshots.py`
+
+3. Create Python script that resores Volumes from Snapshots
+
+Script name: `restore-volumes.py`
+
+---
+
+## Project 5
+
+**Nginx server monitoring and recovery**
+
+1. Create a server on any cloud platform
+
+2. Install docker and run a nginx docker container
+
+3. Create functions to restart the reboot the server first and then restart the docker container
+
+To restart the server you can use boto3 and for the docker container you first need to SSH into the server using `paramiko`. 
+
+4. Create function that sends an email notification
+
+5. Create function that monitors the nginx server at 5 minutes interval using `requests` module. 
+
+Script name: `monitor-nginx.py`
 
