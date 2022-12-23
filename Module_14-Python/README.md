@@ -2,7 +2,11 @@
 
 Module 13 was pretty easy, I'll skip it.
 
-I'm using pyenv to manage multiple versions of python and dependencies between different project with virtualenv.
+While Terraform is best used to provision infrastructure, Python can be used to automate some repetitive tasks regarding already created infrastructure. You can do regular back-ups, regular clean-ups, health-checks & monitoring, etc.\
+
+TF knows the state of the infrastructure, Python does not track that. TF is also idempotent, while Python not.\
+
+I'm using pyenv to manage multiple versions of python and dependencies between different project with virtualenv.\
 
 - Install pyenv
 - Create a virtualenv with the python versions you want. For example: `pyenv virtualenv 3.9.4 devops-work` - will create devops-work virtulenv using version 3.9.4 of python
