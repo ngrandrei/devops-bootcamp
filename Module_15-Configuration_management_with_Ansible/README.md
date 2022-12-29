@@ -76,4 +76,8 @@ You can set variables directly in the Playbook, on the command line or using ext
 
 - EC2 created with a Ubuntu AMI -> apt as a package manager
 
+- `npm pack` - to create the tgz file with the app -> when unpacking the tgz you will get `package` folder with app/ and package.json
+
+- `async` and `poll` are used to run the task asyncronously -> the playbook run might finish but the node start can be in progress on the server
+
 Ansible file: `deploy-node-app.yaml`
