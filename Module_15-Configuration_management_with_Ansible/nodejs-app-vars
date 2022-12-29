@@ -1,0 +1,6 @@
+version: 1.0.0 
+location: /Users/andreinegru/devops-bootcamp/Module_15-Configuration_management_with_Ansible/simple-nodejs
+linux_name: andreinegru
+user_home_dir: /home/{{linux_name}}
+
+docker_password: xxxxx
