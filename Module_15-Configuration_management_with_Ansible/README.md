@@ -66,7 +66,7 @@ You can set variables directly in the Playbook, on the command line or using ext
 
 ## Project 1
 
-**Automate Node.js application deployment**
+**Automate Node.js application deployment on a Ubuntu server**
 
 1. Create EC2 server on AWS
 
@@ -81,3 +81,37 @@ You can set variables directly in the Playbook, on the command line or using ext
 - `async` and `poll` are used to run the task asyncronously -> the playbook run might finish but the node start can be in progress on the server
 
 Ansible file: `deploy-node-app.yaml`
+
+---
+
+## Project 2 
+
+**Ansible, Docker and Docker-compose on a Amazon Linux 2 server**
+
+- `command` and `shell` modules to be used as the last alternative because they don't have state management
+
+1. Create an EC2 instance with Amazon Linux 2 AMI using Terraform or AWS Console. 
+
+2. Install docker and docker-compose using yum module
+
+- The lookup plugin is always executed on the control node (that's your Ansible server), which is to say that the lookup plugin does not do something on your managed nodes (the target systems). To get the OS name and architecture of the hosts, you can use `ansible_system` and `ansible_architecture` which are set by the gathering facts task automatically. 
+
+3. Start docker daemon
+
+- to start docker daemon you can use `systemd` module
+
+4. Create docker user and add it docker group in order to use docker as a non-root user
+
+- `users` will output just the connected users to the host
+- `groups` will output just the groups that the connected user is part of
+- `cat /etc/passwd` - outputs all users on the host
+- `cat /etc/group` - outputs all groups and the users who are part of each group
+
+5. Copy docker-compose.yaml file to remote
+
+6. Login to Private docker registry
+
+7. Execute docker-compose to start the containers
+
+---
+

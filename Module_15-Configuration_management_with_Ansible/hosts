@@ -1,7 +1,14 @@
-[ec2]
+[ec2_ubuntu]
 ec2-3-88-22-162.compute-1.amazonaws.com
 ec2-34-238-115-200.compute-1.amazonaws.com
 
-[ec2:vars]
+[ec2_amazon_linux]
+ec2-44-202-138-134.compute-1.amazonaws.com
+
+[ec2_ubuntu:vars]
 ansible_ssh_private_key_file=~/Downloads/negru-aws-key.pem
 ansible_user=ubuntu
+
+[ec2_amazon_linux:vars]
+ansible_ssh_private_key_file=~/Downloads/negru-aws-key.pem
+ansible_user=ec2-user

@@ -1,0 +1,58 @@
+---
+- name: Install Docker and Docker-compose
+  hosts: ec2_amazon_linux
+  become: True 
+  tasks:
+    - name: Install Docker
+      ansible.builtin.yum:
+        name: docker
+        update_cache: True
+        state: present 
+    - name: Install Docker-compose
+      ansible.builtin.get_url:
+        url: https://github.com/docker/compose/releases/download/1.23.2/docker-compose-{{ansible_system}}-{{ansible_architecture}}
+        dest: /usr/local/bin/docker-compose
+        mode: +x
+      register: status
+    - ansible.builtin.debug: msg={{status.url}}
+
+- name: Create linux user to run docker
+  hosts: ec2_amazon_linux
+  become: True
+  tasks:
+    - name: Create linux user and add it to docker group
+      ansible.builtin.user:
+        name: andrein
+        groups: docker
+        append: True
+
+- name: Ensure docker daemon is running
+  hosts: ec2_amazon_linux
+  become: True
+  tasks:
+    - name: Start docker daemon
+      ansible.builtin.systemd:
+        name: docker
+        state: started
+
+- name: Ensure docker containers are runnning
+  hosts: ec2_amazon_linux
+  become_user: docker
+  become: True
+  vars_files:
+    - nodejs-app-vars
+  tasks:
+    - name: Copy docker-compose yaml file
+      ansible.builtin.copy:
+        src: /Users/andreinegru/devops-bootcamp/Module_15-Configuration_management_with_Ansible/docker-compose.yaml
+        dest: /home/docker/docker-compose.yaml
+    - name: Docker login 
+      community.docker.docker_login: 
+        registry_url: https://index.docker.io/v1/
+        username: negru1andrei
+        password: "{{docker_password}}"
+    - name: Start container from compose
+      community.docker.docker_compose: 
+        project_src: /home/docker
+
+
