@@ -15,6 +15,12 @@
         mode: +x
       register: status
     - ansible.builtin.debug: msg={{status.url}}
+    - name: Install docker python module
+      ansible.builtin.pip:
+        name: 
+          - docker
+          - docker-compose
+
 
 - name: Create linux user to run docker
   hosts: ec2_amazon_linux
