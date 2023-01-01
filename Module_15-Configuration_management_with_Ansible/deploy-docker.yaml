@@ -1,6 +1,19 @@
 ---
+- name: Wait for ssh connection
+  hosts: all
+  tasks: 
+    - name: Ensure ssh port open
+      ansible.builtin.wait_for:
+        port: 22
+        delay: 10
+        timeout: 120 
+        search_regex: OpenSSH
+        host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
+      vars:
+        ansible_connection: local
+
 - name: Install Docker and Docker-compose
-  hosts: ec2_amazon_linux
+  hosts: all
   become: True 
   tasks:
     - name: Install Docker
@@ -21,9 +34,8 @@
           - docker
           - docker-compose
 
-
 - name: Create linux user to run docker
-  hosts: ec2_amazon_linux
+  hosts: all
   become: True
   tasks:
     - name: Create linux user and add it to docker group
@@ -33,7 +45,7 @@
         append: True
 
 - name: Ensure docker daemon is running
-  hosts: ec2_amazon_linux
+  hosts: all
   become: True
   tasks:
     - name: Start docker daemon
@@ -42,7 +54,7 @@
         state: started
 
 - name: Ensure docker containers are runnning
-  hosts: ec2_amazon_linux
+  hosts: all
   become_user: docker
   become: True
   vars_files:

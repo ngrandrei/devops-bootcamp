@@ -115,3 +115,15 @@ Ansible file: `deploy-node-app.yaml`
 
 ---
 
+## Project 3
+
+**Ansible integration with Terraform**
+
+1. Create Ansible playbook which will be run by Terraform once a server is provisioned
+
+- `ansible.builtin.wait_for` module will wait 2 minutes for the port 22 to be available and execute the rest of the playbook only once the server newly created is ready.
+
+2. Create `main-ansible.tf` terraform file 
+
+- `null_resource` does not create any tf resource
+- `local_exec` because terraform will pick the ansible playbook from local machine, and ansible with connect via SSH to target hosts.
