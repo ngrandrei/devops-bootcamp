@@ -144,3 +144,17 @@ Ansible file: `deploy-node-app.yaml`
 - test the inventory plugin with `ansible-inventory -i inventory_aws_ec2.yaml --list` or `--graph`
 - make sure the VPC is configured to assign public DNS names to servers, otherwise, the plugin will get private DNS names of the servers (those can be used only if the Ansible is in the same VPC with the targeted hosts)
 - hosts in Ansible playbook will become `aws_ec2` to target all the hosts, or the tag used to differentiate between servers
+
+--- 
+
+## Project 5 
+
+**Automate K8s deployment**
+
+1. Create EKS cluster with Terraform
+
+2. Write Ansible Play to deploy application in a new K8s namespace
+
+- to authenticate to the cluster, you either add `kubeconfig` key with the path to the kubeconfig file in your play or set the environemnt variable `K8S_AUTH_KUBECONFIG`. 
+
+--- 

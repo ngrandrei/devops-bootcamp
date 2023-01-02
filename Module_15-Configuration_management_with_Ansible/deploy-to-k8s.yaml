@@ -1,0 +1,16 @@
+
+---
+- name: Deploy app in new namespace
+  hosts: localhost
+  tasks:
+    - name: Create a k8s namespace
+      community.kubernetes.k8s:
+        name: demo-app-ns
+        api_version: v1
+        kind: Namespace
+        state: present
+    - name: Deploy nginx app in the newly created namespace
+      community.kubernetes.k8s:
+        src: ../Module_11-EKS/nginx-config.yaml
+        state: present
+        namespace: demo-app-ns
