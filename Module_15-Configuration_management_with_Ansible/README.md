@@ -127,3 +127,20 @@ Ansible file: `deploy-node-app.yaml`
 
 - `null_resource` does not create any tf resource
 - `local_exec` because terraform will pick the ansible playbook from local machine, and ansible with connect via SSH to target hosts.
+
+---
+
+## Project 4
+
+**Dynamic inventory**
+
+1. Create 3 EC2 servers with Terraform
+
+2. Connect to those servers with Ansible without hardcoding the IP Addresses.
+
+- connect to AWS account and get servers information usign Inventory Plugins or Scripts. Plugins are recommended because it has state management. 
+- `enable_plugins = amazon.aws.aws_ec2` in .cfg 
+- file with `aws_ec2.yaml` suffix has to be created
+- test the inventory plugin with `ansible-inventory -i inventory_aws_ec2.yaml --list` or `--graph`
+- make sure the VPC is configured to assign public DNS names to servers, otherwise, the plugin will get private DNS names of the servers (those can be used only if the Ansible is in the same VPC with the targeted hosts)
+- hosts in Ansible playbook will become `aws_ec2` to target all the hosts, or the tag used to differentiate between servers
